@@ -159,8 +159,8 @@
         .hero-btns { display: flex; gap: 20px; }
 
         /* About Section */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .about-image-wrapper { position: relative; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
+        .about-image-wrapper { position: relative; max-width: 380px; margin: 0 auto; }
         .about-image {
             width: 100%; aspect-ratio: 1; border-radius: 30px; object-fit: cover;
             position: relative; z-index: 2;
@@ -444,6 +444,8 @@
         /* Animations */
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .cursor { font-weight: 300; color: var(--accent-1); animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
 
         /* Responsive */
         @media (max-width: 992px) {
@@ -510,7 +512,7 @@
         <div class="container fade-in">
             <div class="hero-content">
                 <span class="greeting">Hello World, I'm</span>
-                <h1 class="hero-title">Sajal<br><span class="text-gradient">Aspiring Software Engineer.</span></h1>
+                <h1 class="hero-title">Sajal<br><span class="text-gradient" id="typed-text"></span><span class="cursor">|</span></h1>
                 <p class="hero-desc">I specialize in Cloud Engineering, .NET Development, and AI-driven Solutions. Passionate about building seamless, scalable, and intelligent applications.</p>
                 <div class="hero-btns">
                     <a href="#projects" class="btn btn-primary">View Projects <i class="fas fa-arrow-right"></i></a>
@@ -667,9 +669,9 @@
                     </div>
                 </div>
 
-                <div class="cert-card fade-in clickable-card" data-img="Screenshot 2026-03-20 202738.png">
+                <div class="cert-card fade-in clickable-card" data-img="Screenshot 2026-03-26 144122.png">
                     <div class="cert-bg-wrap">
-                        <img src="Screenshot 2026-03-20 202738.png" class="cert-bg-img" alt="Certificate">
+                        <img src="Screenshot 2026-03-26 144122.png" class="cert-bg-img" alt="Certificate">
                         <div class="cert-overlay"></div>
                     </div>
                     <div class="cert-info">
@@ -1001,6 +1003,21 @@
                 card.style.setProperty('--y', `${e.clientY - rect.top}px`);
             });
         });
+
+        // Typing Effect
+        const heroText = "Aspiring Software Engineer.";
+        const typedTextSpan = document.getElementById("typed-text");
+        let charIndex = 0;
+
+        function typeHeroText() {
+            if (charIndex < heroText.length) {
+                typedTextSpan.textContent += heroText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeHeroText, 100);
+            }
+        }
+        
+        setTimeout(typeHeroText, 800);
     </script>
 
     <!-- 3D Tilt Library -->
