@@ -23,6 +23,37 @@
             --glow: rgba(139, 92, 246, 0.3);
         }
 
+        body.light-mode {
+            --bg-color: #f3f4f6;
+            --surface-color: rgba(0, 0, 0, 0.03);
+            --surface-border: rgba(0, 0, 0, 0.1);
+            --text-main: #111827;
+            --text-muted: #4b5563;
+        }
+        body.light-mode .logo { color: var(--text-main); }
+        body.light-mode .nav-links a { color: var(--text-muted); }
+        body.light-mode .nav-links a:hover, body.light-mode .nav-links a.active { color: var(--text-main); }
+        body.light-mode nav.scrolled { background: rgba(243, 244, 246, 0.9); }
+        body.light-mode .btn-outline { color: var(--text-main); border-color: rgba(0,0,0,0.2); }
+        body.light-mode .btn-outline:hover { background: rgba(0,0,0,0.05); }
+        body.light-mode .cert-overlay { background: linear-gradient(to top, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0.8) 50%, transparent 100%); }
+        body.light-mode .cert-title, body.light-mode .timeline-role, body.light-mode .form-title { color: var(--text-main); }
+        body.light-mode .cert-card, body.light-mode .social-card-item, body.light-mode .contact-form-panel { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); }
+        body.light-mode .input-group input, body.light-mode .input-group textarea { background: rgba(255,255,255,0.8); color: var(--text-main); border: 1px solid rgba(0,0,0,0.1); }
+        body.light-mode .textarea-footer { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-top: none; }
+        body.light-mode .btn-send { background: var(--accent-gradient); color: white; }
+        body.light-mode .btn-send:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--glow); }
+        body.light-mode .project-card { background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); }
+        body.light-mode .project-title { color: var(--text-main); }
+        body.light-mode .project-img-overlay { background: linear-gradient(to bottom, transparent, rgba(243,244,246,0.95)); }
+        body.light-mode .project-link { border-color: var(--text-main); color: var(--text-main); }
+        body.light-mode .project-link:hover { background: rgba(0,0,0,0.05); }
+        body.light-mode .stat-item h4 { color: var(--text-main); }
+        body.light-mode .glass-panel { background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.1); }
+
+        .theme-toggle { background: transparent; border: 1px solid var(--surface-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 1.2rem; }
+        .theme-toggle:hover { background: rgba(139, 92, 246, 0.2); border-color: var(--accent-1); transform: rotate(15deg); }
+
         * {
             margin: 0;
             padding: 0;
@@ -99,6 +130,16 @@
 
         section { padding: 100px 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
+        /* UI Polish Extras */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        .loader { width: 50px; height: 50px; border: 3px solid var(--surface-border); border-radius: 50%; border-top-color: var(--accent-1); animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent-1); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .cursor-outline { width: 30px; height: 30px; border: 2px solid var(--accent-2); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        @media (max-width: 768px) { .cursor-dot, .cursor-outline { display: none !important; } }
+        
+        #scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent-gradient); z-index: 9999; box-shadow: 0 0 10px var(--accent-1); transition: width 0.1s; }
         /* Navbar */
         nav {
             position: fixed;
@@ -413,6 +454,9 @@
         }
         .social-card-item:hover .social-card-icon { color: white; background: var(--accent-gradient); border-color: transparent; }
         
+        @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
+        .resume-btn { animation: pulse-glow 2s infinite; border-color: var(--accent-1); }
+
         /* Footer */
         footer { padding: 30px 0; text-align: center; border-top: 1px solid var(--surface-border); margin-top: auto; }
         footer p { color: var(--text-muted); font-size: 0.9rem; }
@@ -481,6 +525,16 @@
 </head>
 <body>
 
+    <!-- Preloader -->
+    <div id="preloader"><div class="loader"></div></div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
     <!-- Animated Background -->
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -492,7 +546,6 @@
     <nav id="navbar">
         <div class="container nav-content">
             <a href="#home" class="logo">Sajal<span class="text-gradient">.</span></a>
-            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -504,6 +557,10 @@
                 <li><a href="#education">Education</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </div>
         </div>
     </nav>
 
@@ -750,7 +807,7 @@
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">VotersListProject</h3>
-                        <p class="project-desc">A comprehensive system designed to track, organize, and manage voter records seamlessly.</p>
+                        <p class="project-desc">A comprehensive Java and MySQL system designed to track, organize, and manage voter records seamlessly.</p>
                         <div class="project-links">
                             <a href="https://github.com/sajalsrivastavacode/VotersListProject" target="_blank" class="project-link">Live Demo</a>
                             <a href="https://github.com/sajalsrivastavacode/VotersListProject" target="_blank" class="project-link">Code</a>
@@ -765,7 +822,7 @@
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Cultural Etiquette Guide</h3>
-                        <p class="project-desc">An interactive guide designed to educate and inform users about cross-cultural norms and etiquette around the world.</p>
+                        <p class="project-desc">An interactive web guide using HTML, CSS, and JS designed to educate and inform users about cross-cultural norms.</p>
                         <div class="project-links">
                             <a href="https://github.com/sajalsrivastavacode/Cultural-Etiquette-Guide" target="_blank" class="project-link">Live Demo</a>
                             <a href="https://github.com/sajalsrivastavacode/Cultural-Etiquette-Guide" target="_blank" class="project-link">Code</a>
@@ -780,7 +837,7 @@
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">AI Cloud Auto-Scaling Platform</h3>
-                        <p class="project-desc">An intelligent cloud platform featuring FastAPI, Docker, and Kubernetes that automatically scales resources using an AI-based Horizontal Pod Autoscaler.</p>
+                        <p class="project-desc">An intelligent Python cloud platform using AWS, Docker, and Kubernetes that automatically scales resources via AI.</p>
                         <div class="project-links">
                             <a href="https://github.com/sajalsrivastavacode/ai-cloud-autoscaling-platform" target="_blank" class="project-link">Live Demo</a>
                             <a href="https://github.com/sajalsrivastavacode/ai-cloud-autoscaling-platform" target="_blank" class="project-link">Code</a>
@@ -795,7 +852,7 @@
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Movie Recommendation</h3>
-                        <p class="project-desc">A deep learning-based engine mapping user preferences and viewing history to suggest highly tailored film choices.</p>
+                        <p class="project-desc">A deep learning-based Python and AI engine mapping user preferences and viewing history to suggest tailored film choices.</p>
                         <div class="project-links">
                             <a href="https://github.com/sajalsrivastavacode/Movie_Recommendation" target="_blank" class="project-link">Live Demo</a>
                             <a href="https://github.com/sajalsrivastavacode/Movie_Recommendation" target="_blank" class="project-link">Code</a>
@@ -810,7 +867,7 @@
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">AI Image Tagging System</h3>
-                        <p class="project-desc">An advanced computer vision architecture dedicated to automatically detecting and accurately tagging features within uploaded images.</p>
+                        <p class="project-desc">An advanced Python computer vision structure dedicated to detecting and tagging features within images.</p>
                         <div class="project-links">
                             <a href="https://github.com/sajalsrivastavacode/AI-Image-Tagging-Detection-System-" target="_blank" class="project-link">Live Demo</a>
                             <a href="https://github.com/sajalsrivastavacode/AI-Image-Tagging-Detection-System-" target="_blank" class="project-link">Code</a>
@@ -893,7 +950,7 @@
                 <!-- Left: Form -->
                 <div class="contact-form-panel">
                     <h3 class="form-title">Drop a Message</h3>
-                    <form class="contact-form" action="mailto:contact@example.com" method="post" enctype="text/plain">
+                    <form class="contact-form" id="my-contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                         <div class="input-row">
                             <div class="input-group">
                                 <label><i class="far fa-user" style="color:var(--text-muted)"></i> YOUR NAME</label>
@@ -932,7 +989,7 @@
                         <div class="social-card-icon"><i class="fab fa-github"></i></div>
                         <span>GITHUB</span>
                     </a>
-                    <a href="sajlcv.pdf" target="_blank" class="social-card-item" download="sajlcv.pdf">
+                    <a href="sajlcv.pdf" target="_blank" class="social-card-item resume-btn" download="sajlcv.pdf">
                         <div class="social-card-icon"><i class="far fa-file-pdf" style="color:inherit;"></i></div>
                         <span>RESUME</span>
                     </a>
@@ -1018,6 +1075,132 @@
         }
         
         setTimeout(typeHeroText, 800);
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let outlineX = mouseX, outlineY = mouseY;
+        
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
+        
+        function animateCursor() {
+            let distX = mouseX - outlineX;
+            let distY = mouseY - outlineY;
+            outlineX += distX * 0.2;
+            outlineY += distY * 0.2;
+            cursorOutline.style.left = `${outlineX}px`;
+            cursorOutline.style.top = `${outlineY}px`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+        
+        // Cursor Hover effects
+        document.querySelectorAll('a, button, .clickable-card, .project-card, .skill-category, input, textarea').forEach(el => {
+            el.addEventListener('mouseover', () => {
+                cursorOutline.style.width = '50px';
+                cursorOutline.style.height = '50px';
+                cursorOutline.style.backgroundColor = 'rgba(139, 92, 246, 0.1)';
+            });
+            el.addEventListener('mouseout', () => {
+                cursorOutline.style.width = '30px';
+                cursorOutline.style.height = '30px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Skill Filtering Logic
+        const skillTags = document.querySelectorAll('.skill-tag');
+        const allProjects = document.querySelectorAll('.project-card');
+        
+        skillTags.forEach(tag => {
+            tag.style.cursor = 'pointer';
+            tag.addEventListener('click', function() {
+                skillTags.forEach(t => t.style.background = '');
+                this.style.background = 'var(--accent-gradient)';
+                
+                const filterText = this.innerText.trim().toLowerCase();
+                
+                allProjects.forEach(project => {
+                    const desc = project.querySelector('.project-desc').innerText.toLowerCase();
+                    const title = project.querySelector('.project-title').innerText.toLowerCase();
+                    if (desc.includes(filterText) || title.includes(filterText) || filterText === '') {
+                        project.style.display = 'flex';
+                        setTimeout(() => project.style.opacity = '1', 50);
+                    } else {
+                        project.style.opacity = '0';
+                        setTimeout(() => project.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // Formspree / Success Animation Logic
+        const myContactForm = document.getElementById('my-contact-form');
+        const submitBtn = myContactForm.querySelector('.btn-send');
+        
+        myContactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent actual redirection for demo UX
+            
+            // For real Formspree: uncomment the AJAX fetch logic
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SENDING...';
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> MESSAGE SENT!';
+                submitBtn.style.background = '#10b981'; // Green success
+                submitBtn.style.color = 'white';
+                myContactForm.reset();
+                document.getElementById('char-count').innerHTML = '<span style="color:#06b6d4; margin-right:5px; font-size:1rem;">•</span> 0 chars';
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.style.color = '';
+                }, 3000);
+            }, 1000);
+        });
     </script>
 
     <!-- 3D Tilt Library -->
